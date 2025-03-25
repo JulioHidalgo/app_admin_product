@@ -1,0 +1,11 @@
+<mat-chip 
+  [class]="statusInfo.colorClass"
+  [matTooltip]="'Rango de precio: ' + statusInfo.text"
+  selected>
+  @if (showIcon) {
+    <mat-icon>{{ statusInfo.icon }}</mat-icon>
+  }
+  @if (showText) {
+    <span>{{ statusInfo.text }}</span>
+  }
+</mat-chip>

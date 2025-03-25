@@ -1,0 +1,73 @@
+<mat-card>
+  <span class="spacer"></span>
+  <mat-card-header>
+    <mat-form-field>
+      <input 
+    matInput 
+    (keyup)="applyFilter($event)" 
+    placeholder="Filtrar por nombre, descripción, categoría o precio"
+    #input
+  >
+  <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <button mat-flat-button class="custom-button" style="margin-left: 60%;" (click)="addproduct()" >Agregar Producto (+)</button>
+  </mat-card-header>
+  <mat-card-content>
+    <table matSort mat-table [dataSource]="products" class="mat-elevation-z8">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Título</th>
+        <td mat-cell *matCellDef="let product">{{ product.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-sort-header mat-header-cell *matHeaderCellDef>Descripción</th>
+        <td mat-cell *matCellDef="let product">{{ product.description }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="price">
+        <th mat-sort-header mat-header-cell *matHeaderCellDef>Precio</th>
+        <td mat-cell *matCellDef="let product" class="price-cell">
+          <div class="price-container">
+            <span class="price-amount">{{ product.price | currency }}</span>
+            <app-price-status 
+              [price]="product.price" 
+              [showText]="true"
+              [showIcon]="true">
+            </app-price-status>
+          </div>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="category">
+        <th mat-sort-header mat-header-cell *matHeaderCellDef>Categoría</th>
+        <td mat-cell *matCellDef="let product">{{ product.category.name }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-sort-header mat-header-cell *matHeaderCellDef>Estado</th>
+        <td mat-cell *matCellDef="let product">{{ product.status }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Acciones</th>
+        <td mat-cell *matCellDef="let product" class="actions-cell">
+          <div class="actions-container">
+            <button mat-icon-button (click)="editProduct(product.id, product)" class="action-button">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteProduct(product.id)" class="action-button">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </mat-card-content>
+  <br>
+  <mat-card-footer>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-card-footer>
+</mat-card>
